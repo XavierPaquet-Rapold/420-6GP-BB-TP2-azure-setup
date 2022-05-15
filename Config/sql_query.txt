@@ -1,0 +1,30 @@
+WITH 
+    [StreamData]
+AS (
+   SELECT
+    *
+    FROM 
+      IotHubInput
+    WHERE
+       [ObjectType] IS NULL
+)
+
+SELECT IoTHub.ConnectionDeviceId as ConnectionDeviceId, _TemperatureDistanceDto__temperature as temperature, _TemperatureDistanceDto__distance as distance, EventProcessedUtcTime
+INTO IotToDistanceTemperature
+FROM [StreamData]
+WHERE _TemperatureDistanceDto__type = 'distance_temperature'
+
+SELECT IoTHub.ConnectionDeviceId as ConnectionDeviceId, _MotorStatusDto__state as motor_state, _MotorStatusDto__target as motor_target, _MotorStatusDto__direction as direction, _MotorStatusDto__speed as speed, EventProcessedUtcTime
+INTO IotToMotor
+FROM [StreamData]
+WHERE _MotorStatusDto__type = 'motor_status'
+
+SELECT IoTHub.ConnectionDeviceId as ConnectionDeviceId, _ConstantsDto__max_temperature as max_temperature, _ConstantsDto__min_temperature as min_temperature, _ConstantsDto__max_distance as max_distance, _ConstantsDto__min_distance as min_distance,EventProcessedUtcTime
+INTO IotToConstants
+FROM [StreamData]
+WHERE _ConstantsDto__type = 'constant'
+
+SELECT IoTHub.ConnectionDeviceId as ConnectionDeviceId, _ControlDto__state as mode, _ControlDto__target as distance, EventProcessedUtcTime
+INTO IotToControl
+FROM [StreamData]
+WHERE _ControlDto__type = 'control'

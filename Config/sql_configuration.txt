@@ -1,0 +1,31 @@
+CREATE TABLE constants (
+  ConnectionDeviceId varchar(255) not null,
+  min_temperature FLOAT,
+  max_temperature FLOAT,
+  min_distance FLOAT,
+  max_distance FLOAT,
+  EventProcessedUtcTime datetime
+);
+
+CREATE TABLE motor(
+  ConnectionDeviceId varchar(255) not null,
+  motor_state varchar(20),
+  motor_target FLOAT,
+  direction varchar(20),
+  speed FLOAT,
+  EventProcessedUtcTime datetime 
+);
+
+CREATE TABLE distance_temperature(
+  ConnectionDeviceId varchar(255) not null,
+  temperature FLOAT,
+  distance FLOAT,
+  EventProcessedUtcTime datetime
+);
+
+CREATE TABLE control(
+  ConnectionDeviceId varchar(255) not null,
+  mode varchar(25),
+  distance FLOAT,
+  EventProcessedUtcTime datetime
+);
